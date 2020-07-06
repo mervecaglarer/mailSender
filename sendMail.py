@@ -10,7 +10,7 @@ import csv
 emails=[]
 names=[]
 urls=[]
-with open('filename.csv',encoding='utf-8') as csv_file:
+with open('mailaddress.csv', encoding='utf-8') as csv_file: # csv file has mail addresses which are wanted to send mail
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for row in csv_reader:
@@ -24,19 +24,20 @@ def read_template(filename):
 
 s = smtplib.SMTP(host='smtp.gmail.com', port=587)
 s.starttls()
-s.login('example@gmail.com', 'password')
+s.login('sendermail@gmail.com', 'password') # sender mail address and password 
 
-message_template = read_template('examplemail.txt')
-cc=['example@gmail.com']
+message_template = read_template('examplemail.txt') # txt file has mail which are wanted to send 
+cc=['ccmail@gmail.com'] # cc mail address
+
 # For each contact, send the email:
 for email in emails:
-    msg = MIMEMultipart()       # create a message
 
+    msg = MIMEMultipart() # create a message
     message = message_template.substitute()
 
-    msg['From']='example@gmail.com'
-    msg['To']=email
-    msg['Subject']="Subject"
+    msg['From'] = 'sendermail@gmail.com'
+    msg['To'] = email
+    msg['Subject'] = "Subject" # subject what you want
     msg.add_header("Cc", ", ".join(cc))
     
     # add in the message body
